@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 )
 
 func handlerValidate(w http.ResponseWriter, r *http.Request) {
@@ -11,7 +12,7 @@ func handlerValidate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type returnVals struct {
-		Valid bool `json:"valid"`
+		CleanedBody string `json:"cleaned_body"`
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -30,7 +31,30 @@ func handlerValidate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	badWords := map[string]struct{}{
+		"kerfuffle": {},
+		"sharbert":  {},
+		"fornax":    {},
+	}
+	cleaned := getCleanedBody(params.Body, badWords)
 	respondWithJSON(w, http.StatusOK, returnVals{
-		Valid: true,
+		CleanedBody: cleaned,
 	})
+}
+
+func getCleanedBody(body string, badWords map[string]struct{}) string {
+	bodySlice := strings.Split(body, " ")
+	cleanedSlice := []string{}
+	for _, word := range bodySlice {
+		loweredWord := strings.ToLower(word)
+		_, isBadWord := badWords[loweredWord]
+
+		switch {
+		case isBadWord:
+			cleanedSlice = append(cleanedSlice, "****")
+		default:
+			cleanedSlice = append(cleanedSlice, word)
+		}
+	}
+	return strings.Join(cleanedSlice, " ")
 }
