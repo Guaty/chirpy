@@ -1,47 +1,36 @@
-POST http://localhost:8080/admin/reset
+@baseURL = http://localhost:8080
+@email = aketchum@pallettn.pkm
+@password = TheVeryBest96
+
+POST {{baseURL}}/admin/reset
 
 ###
 
-POST http://localhost:8080/api/users
+# @name user
+POST {{baseURL}}/api/users
 
 {
-    "password": "TheVeryBest96",
-    "email": "aketchum@pallettn.pkm"
+    "password": "{{password}}",
+    "email": "{{email}}"
 }
 
 ###
 
-POST http://localhost:8080/api/login
+# @name login
+POST {{baseURL}}/api/login
 
 {
-    "password": "AshSux10Badges",
-    "email:": "goak@pallettn.pkm"
+    "password": "{{password}}",
+    "email": "{{email}}"
 }
 
 ###
 
-POST http://localhost:8080/api/login
-
-{
-    "password": "TheVeryBest96",
-    "email": "aketchum@pallettn.pkm"
-}
-
-###
-
-POST http://localhost:8080/api/chirps
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHktYWNjZXNzIiwic3ViIjoiM2YwZWY5YWQtMDdkZS00MmRhLTkwZWUtYjEwNzk0OGY3YWRjIiwiZXhwIjoxNzQxMTEyMzk0LCJpYXQiOjE3NDExMDg3OTR9.lCE45w8McrkNh1LF7Sl5LgjqOjyft_1Pf5fNsAC4To0
+@token = {{login.response.body.token}}
+# @name chirp
+POST {{baseURL}}/api/chirps
+Authorization: Bearer {{token}}
 
 {
     "body": "I wanna be the very best, like no one ever was"
-}
-
-###
-
-PUT http://localhost:8080/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHktYWNjZXNzIiwic3ViIjoiM2YwZWY5YWQtMDdkZS00MmRhLTkwZWUtYjEwNzk0OGY3YWRjIiwiZXhwIjoxNzQxMTEyMzk0LCJpYXQiOjE3NDExMDg3OTR9.lCE45w8McrkNh1LF7Sl5LgjqOjyft_1Pf5fNsAC4To0
-
-{
-    "password": "AlolaChampion2019",
-    "email": "aketchum@alola.pkm"
 }
