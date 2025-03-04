@@ -1,0 +1,47 @@
+POST http://localhost:8080/admin/reset
+
+###
+
+POST http://localhost:8080/api/users
+
+{
+    "password": "TheVeryBest96",
+    "email": "aketchum@pallettn.pkm"
+}
+
+###
+
+POST http://localhost:8080/api/login
+
+{
+    "password": "AshSux10Badges",
+    "email:": "goak@pallettn.pkm"
+}
+
+###
+
+POST http://localhost:8080/api/login
+
+{
+    "password": "TheVeryBest96",
+    "email": "aketchum@pallettn.pkm"
+}
+
+###
+
+POST http://localhost:8080/api/chirps
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHktYWNjZXNzIiwic3ViIjoiM2YwZWY5YWQtMDdkZS00MmRhLTkwZWUtYjEwNzk0OGY3YWRjIiwiZXhwIjoxNzQxMTEyMzk0LCJpYXQiOjE3NDExMDg3OTR9.lCE45w8McrkNh1LF7Sl5LgjqOjyft_1Pf5fNsAC4To0
+
+{
+    "body": "I wanna be the very best, like no one ever was"
+}
+
+###
+
+PUT http://localhost:8080/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHktYWNjZXNzIiwic3ViIjoiM2YwZWY5YWQtMDdkZS00MmRhLTkwZWUtYjEwNzk0OGY3YWRjIiwiZXhwIjoxNzQxMTEyMzk0LCJpYXQiOjE3NDExMDg3OTR9.lCE45w8McrkNh1LF7Sl5LgjqOjyft_1Pf5fNsAC4To0
+
+{
+    "password": "AlolaChampion2019",
+    "email": "aketchum@alola.pkm"
+}
