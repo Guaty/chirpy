@@ -12,30 +12,29 @@ func (cfg *apiConfig) handlerRefresh(w http.ResponseWriter, r *http.Request) {
 		Token string `json:"token"`
 	}
 
-	token, err := auth.GetBearerToken(r.Header)
+	refreshToken, err := auth.GetBearerToken(r.Header)
 	if err != nil {
-		respondWithError(w, http.StatusBadRequest, "couldn't get token", err)
+		respondWithError(w, http.StatusBadRequest, "Couldn't find token", err)
 		return
 	}
 
-	refreshToken, err := cfg.db.GetToken(r.Context(), token)
+	user, err := cfg.db.GetUserFromRefreshToken(r.Context(), refreshToken)
 	if err != nil {
-		respondWithError(w, http.StatusUnauthorized, "no vailid token found", err)
+		respondWithError(w, http.StatusUnauthorized, "Couldn't get user for refresh token", err)
 		return
 	}
 
-	user, err := cfg.db.GetUserFromRefreshToken(r.Context(), refreshToken.Token)
+	accessToken, err := auth.MakeJWT(
+		user.ID,
+		cfg.jwtSecret,
+		time.Hour,
+	)
 	if err != nil {
-		respondWithError(w, http.StatusUnauthorized, "invalid token for user", err)
+		respondWithError(w, http.StatusUnauthorized, "Couldn't validate token", err)
 		return
-	}
-
-	newToken, err := auth.MakeJWT(user.ID, cfg.jwtSecret, time.Hour)
-	if err != nil {
-		respondWithError(w, http.StatusInternalServerError, "couldn't generate new token", err)
 	}
 
 	respondWithJSON(w, http.StatusOK, response{
-		Token: newToken,
+		Token: accessToken,
 	})
 }

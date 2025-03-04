@@ -18,5 +18,5 @@ func (cfg *apiConfig) handlerRevoke(w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, http.StatusInternalServerError, "token not found", err)
 	}
 
-	respondWithJSON(w, http.StatusNoContent, nil)
+	w.WriteHeader(http.StatusNoContent)
 }
